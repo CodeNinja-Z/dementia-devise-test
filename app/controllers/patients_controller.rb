@@ -25,13 +25,16 @@ class PatientsController < ApplicationController
   # POST /patients.json
   def create
     @patient = Patient.new(patient_params)
+    @user_finder = User.find_by_email(params[:email])
 
     respond_to do |format|
-      if @patient.save
+      if @user_finder.nil?
+        @patient.save
+        User.create(email: params[:email], password: params[:password], password_confirmation: params[:password], profile: @patient)
         format.html { redirect_to @patient, notice: 'Patient was successfully created.' }
         format.json { render :show, status: :created, location: @patient }
       else
-        format.html { render :new }
+        format.html { render :new, alert: 'That email is already registered to a user.' }
         format.json { render json: @patient.errors, status: :unprocessable_entity }
       end
     end
