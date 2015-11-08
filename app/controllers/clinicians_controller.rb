@@ -30,11 +30,11 @@ class CliniciansController < ApplicationController
     respond_to do |format|
       if @user_finder.nil?
         @clinician.save
-        User.create(email: params[:email], password: params[:password], password_confirmation: params[:password], profile: @child)
-        format.html { redirect_to @clinician, notice: 'Clinician was successfully created.' }
+        User.create(email: params[:email], password: params[:password], password_confirmation: params[:password], profile: @clinician)
+        format.html { redirect_to @clinician, notice: 'clinician was successfully created.' }
         format.json { render :show, status: :created, location: @clinician }
       else
-        format.html { render :new }
+        format.html { render :new, alert: 'That email is already registered to a user.' }
         format.json { render json: @clinician.errors, status: :unprocessable_entity }
       end
     end

@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   
-  root 'clinicians#index'
-  resources :patients
   resources :clinicians
-  devise_for :users, controllers: { sessions: 'users/sessions' }
+  resources :patients
+  devise_for :users, controllers: { registrations: 'users/registrations' }
 
+   root to: 'pages#index'
 end
